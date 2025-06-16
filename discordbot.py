@@ -260,6 +260,6 @@ thread = threading.Thread(target=watch_changes, daemon=True)
 thread.start()
 
 # Bot のアクセストークン（自分のトークンに置き換えてください）
-TOKEN="MTM3NDI3NDYxNTczMTI5NDI1OQ.Gpj8mJ.A1v-gPgzRFs12cgpt_uOkqMOy85RfJzowFZIwI"
+TOKEN="MTM3NDI3NDYxNTczMTI5NDI1OQ.GziYeG.BodY5d2qehXYW50VTuaWtz6FzjR9eEXxeunw94"
 
 bot.run(TOKEN)
