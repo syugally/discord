@@ -4,6 +4,7 @@ from discord.ext import commands
 import yt_dlp  # youtube_dl の代わりに yt_dlp をインポート
 import asyncio
 import os
+from dotenv import load_dotenv
 import sys
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
@@ -20,6 +21,7 @@ bot = commands.Bot(command_prefix='/', intents=intents)
 
 # 各ギルドごとに曲のキュー（リスト）を保持する辞書
 queues = {}
+
 
 # yt_dlp の設定
 ytdl_format_options = {
@@ -259,7 +261,11 @@ def watch_changes():
 thread = threading.Thread(target=watch_changes, daemon=True)
 thread.start()
 
-# Bot のアクセストークン（自分のトークンに置き換えてください）
-TOKEN="MTM3NDI3NDYxNTczMTI5NDI1OQ.GziYeG.BodY5d2qehXYW50VTuaWtz6FzjR9eEXxeunw94"
+# .env ファイルを読み込む
+load_dotenv()
 
+# 環境変数からトークンを取得
+TOKEN = os.getenv("DISCORD_TOKEN")
+
+# Bot を起動
 bot.run(TOKEN)
