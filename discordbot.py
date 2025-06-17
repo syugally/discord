@@ -1,7 +1,17 @@
 ﻿# -- coding: utf-8 --
 import discord
 from discord.ext import commands
-import yt_dlp  # youtube_dl の代わりに yt_dlp をインポート
+import yt_dlp
+
+ydl_opts = {
+    'cookiesfrombrowser': ('chrome',),  # 使用するブラウザを指定（例: Chrome）
+}
+
+with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+    ydl.download(['https://www.youtube.com/watch?v=IKBO7PaIKl4'])
+
+
+
 import asyncio
 import os
 from dotenv import load_dotenv
@@ -35,7 +45,9 @@ ytdl_format_options = {
     'quiet': True,
     'no_warnings': True,
     'default_search': 'auto',
-    'source_address': '0.0.0.0'  # IPv4 を強制
+    'source_address': '0.0.0.0'  # IPv4 を強制]
+
+
 }
 ffmpeg_options = {
     'options': '-vn',
@@ -163,8 +175,20 @@ async def slash_join(interaction: discord.Interaction):
     else:
         await interaction.response.send_message("あなたはボイスチャンネルに参加していません。")
 
-@bot.tree.command(name="play", description="指定したURLから音楽を再生します")
+@bot.tree.command(name="play", description="Play a song")
 async def slash_play(interaction: discord.Interaction, url: str):
+    # 応答を遅延
+    await interaction.response.defer()
+
+    try:
+        # 音楽を再生する処理
+        # 例: yt-dlp を使って音声を取得
+        audio_url = await download_audio(url)
+        await interaction.followup.send(f"Now playing: {url}")
+    except Exception as e:
+        # エラーが発生した場合の処理
+        await interaction.followup.send(f"An error occurred: {e}")
+
     if not interaction.guild:
         await interaction.response.send_message("このコマンドはサーバー内でのみ使用できます。")
         return
