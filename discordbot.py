@@ -4,7 +4,9 @@ from discord.ext import commands
 import yt_dlp
 
 ydl_opts = {
-    'cookiesfrombrowser': ('chrome',),  # 使用するブラウザを指定（例: Chrome）
+    'cookies': '/home/ec2-user/cookies.txt',
+    'format': 'bestaudio/best',
+
 }
 
 with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -14,7 +16,13 @@ with yt_dlp.YoutubeDL(ydl_opts) as ydl:
 
 import asyncio
 import os
+
 from dotenv import load_dotenv
+
+
+load_dotenv(dotenv_path="C:/Users/kanka/Source/Repos/discordbot/discordbot/.env")
+TOKEN = os.getenv("DISCORD_TOKEN")
+print("TOKEN:", TOKEN)
 import sys
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
@@ -285,11 +293,8 @@ def watch_changes():
 thread = threading.Thread(target=watch_changes, daemon=True)
 thread.start()
 
-# .env ファイルを読み込む
 load_dotenv()
-
-# 環境変数からトークンを取得
 TOKEN = os.getenv("DISCORD_TOKEN")
-
+print("TOKEN:", TOKEN)
 # Bot を起動
 bot.run(TOKEN)
